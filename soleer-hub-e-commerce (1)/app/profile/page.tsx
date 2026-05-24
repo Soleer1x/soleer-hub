@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -48,10 +48,15 @@ export default function ProfilePage() {
 
   const [chatMessage, setChatMessage] = useState('')
 
+useEffect(() => {
   if (!isAuthenticated || !user) {
     router.push('/')
-    return null
   }
+}, [isAuthenticated, user, router])
+
+if (!isAuthenticated || !user) {
+  return null
+}
 
   const userOrders = getUserOrders(user.id)
   const conversationId = getOrCreateConversation(user.id, user.name, user.email)
